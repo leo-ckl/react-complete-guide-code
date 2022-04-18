@@ -10,7 +10,7 @@ function App() {
   const { isLoading, error, sendRequest: fetchTasks } = useHttp();
 
   useEffect(() => {
-    const transformTasks = (tasksObj) => {
+    const transformTasks = tasksObj => {
       const loadedTasks = [];
 
       for (const taskKey in tasksObj) {
@@ -20,25 +20,17 @@ function App() {
       setTasks(loadedTasks);
     };
 
-    fetchTasks(
-      { url: 'https://react-http-6b4a6.firebaseio.com/tasks.json' },
-      transformTasks
-    );
+    fetchTasks({ url: 'https://react-http-6b4a6.firebaseio.com/tasks.json' }, transformTasks);
   }, [fetchTasks]);
 
-  const taskAddHandler = (task) => {
-    setTasks((prevTasks) => prevTasks.concat(task));
+  const taskAddHandler = task => {
+    setTasks(prevTasks => prevTasks.concat(task));
   };
 
   return (
     <React.Fragment>
       <NewTask onAddTask={taskAddHandler} />
-      <Tasks
-        items={tasks}
-        loading={isLoading}
-        error={error}
-        onFetch={fetchTasks}
-      />
+      <Tasks items={tasks} loading={isLoading} error={error} onFetch={fetchTasks} />
     </React.Fragment>
   );
 }
